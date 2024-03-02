@@ -38,6 +38,33 @@ let levels = {
         }),
       ];
     }
+  },
+  2:{
+    init:() =>{
+      parsedCollisions = collisionsLevel2.parse2D();
+      collisionBlocks = parsedCollisions.createObjectsFrom2D();
+      player.collisionBlocks = collisionBlocks
+      backgroundLevel = new Sprite({
+        position: {
+          x: 0,
+          y: 0,
+        },
+        imageSrc: "./img/backgroundLevel2.png",
+      });
+      doors = [
+        new Sprite({
+          position: {
+            x: 767,
+            y: 270,
+          },
+          imageSrc: "./img/doorOpen.png",
+          frameRate: 5,
+          frameBuffer: 5,
+          loop: false,
+          autoplay: false,
+        }),
+      ];
+    }
   }
 }
 
@@ -78,6 +105,14 @@ const player = new Player({
       onComplete: () => {
         gsap.to(overlay, {
           opacity: 1,
+          onComplete: () =>{
+            level++
+            levels[level].init()
+            player.switchSprite('idleRight')
+            gsap.to(overlay,{
+              opacity: 0
+            })
+          }
         });
       },
     },
